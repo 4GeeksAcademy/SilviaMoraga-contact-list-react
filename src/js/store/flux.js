@@ -13,7 +13,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			info: "prueba de info",
 			contactApiUrl: "https://playground.4geeks.com/contact",
 			contacts: []
 		},
@@ -56,6 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.catch(() => { });
 			},
 			getContact: (idContact) => {
+				const store = getStore();
 				fetch("https://playground.4geeks.com/contact/agendas/SilviaMoraga/contacts/", {
 					method: "GET",
 				})
@@ -74,6 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.catch((err) => { err })
 			},
 			createAgenda: () => {
+				const store = getStore();
 				fetch("https://playground.4geeks.com/contact/agendas/SilviaMoraga", {
 					method: "POST",
 					body: JSON.stringify({}),
@@ -86,7 +87,25 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log(data);
 					})
 					.catch(err => console.error(err));
-			}
+			},
+			deleteContact: (idContact) => {
+				const store = getStore();
+				const actions = getActions();
+				fetch(`https://playground.4geeks.com/contact/agendas/SilviaMoraga/contacts/${idContact}`, {
+					method: "DELETE",
+					headers: {
+						'Content-Type': 'application/json',
+						accept: "application/json",
+					},
+				})
+					.then(response => {
+						console.log(response);
+						if (response.ok === true)
+							actions.getAllContacts();
+					})
+					.catch((err) => { err })
+					
+			},
 		}
 	};
 };
