@@ -89,6 +89,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.catch(err => console.error(err));
 			},
 			deleteContact: (idContact) => {
+				console.log(idContact);
+				
 				const store = getStore();
 				const actions = getActions();
 				fetch(`https://playground.4geeks.com/contact/agendas/SilviaMoraga/contacts/${idContact}`, {

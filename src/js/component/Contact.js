@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 const Contact = ({ name, email, phone, address, idContact }) => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [selectedContact, setSelectedContact] = useState();
+    const [selectedContact, setSelectedContact] = useState(-1);
     console.log(selectedContact);
     
 
-    const handleSelected = () => {
-        actions.deleteContact(selectedContact);
+    const handleSelected = (idContact) => {
+        console.log(idContact);
+        
+        actions.deleteContact(idContact);
     };
 
     return (
@@ -28,11 +30,11 @@ const Contact = ({ name, email, phone, address, idContact }) => {
                 <button className='btn btn-warning m-3' onClick={() => navigate("/edit-contact/" + idContact)}>
                     <i className="fa-regular fa-pen-to-square" />
                 </button>
-                <button type='button' className='btn btn-danger' data-bs-toggle="modal" data-bs-target="#deleteModal" onClick={() => setSelectedContact(idContact)}>
+                <button type='button' className='btn btn-danger' data-bs-toggle="modal" data-bs-target={`#deleteModal${idContact}`}>
                     <i className="fa-solid fa-trash" />
                 </button>
                 
-                <div className="modal fade" id="deleteModal" data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div className="modal fade" id={`deleteModal${idContact}`} data-bs-backdrop="static" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -44,7 +46,7 @@ const Contact = ({ name, email, phone, address, idContact }) => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleSelected}>Yes, delete it!</button>
+                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {handleSelected(idContact)}}>Yes, delete it!</button>
                             </div>
                         </div>
                     </div>
